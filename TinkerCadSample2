@@ -1,0 +1,45 @@
+#include <Adafruit_NeoPixel.h>
+//#define PIN D3        // use for WEMOS  input pin Neopixel is attached to
+#define PIN 3        // input pin Neopixel is attached to
+#define NUMPIXELS      12 // number of neopixels in the LED Strip
+
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+// constants won't change. They're used here to set pin numbers:
+//const int buttonPin = D4;     // use for WEMOS  the number of the pushbutton pin
+const int buttonPin = 4;     // the number of the pushbutton pin
+
+// variables will change:
+int buttonState = 0;         // variable for reading the pushbutton status
+
+int redColor,greenColor,blueColor = 0;
+
+int delayval = 500; // timing delay 0.5 second
+
+int LightMode = 0;  // used to incriment light modes
+  
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP);
+  pixels.begin(); // Initializes the NeoPixel library.
+}
+
+void loop() {
+  
+   buttonState = digitalRead(buttonPin);
+
+  if (buttonState == LOW) {
+    LightMode += 1;   //increment light mode by 1 each time button is pressed.
+  }
+  
+  
+  pixels.setPixelColor(LightMode, pixels.Color(200, 0, 0)); // add a red pixel each time the button in pressed.
+  
+  pixels.show(); // This sends the updated pixel color to the hardware.
+  delay(delayval);
+ 
+  if(LightMode > 12){
+    LightMode = 0;    // if light mode is more than 12 reset the variable to 0
+  pixels.clear();  //turn all light off
+  }
+  
+}
