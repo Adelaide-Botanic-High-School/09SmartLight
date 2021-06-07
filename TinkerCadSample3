@@ -1,0 +1,58 @@
+#include <Adafruit_NeoPixel.h>
+//#define PIN D3        // input pin Neopixel is attached to
+#define PIN 3        // input pin Neopixel is attached to
+#define NUMPIXELS      12 // number of neopixels in Ring
+
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+// constants won't change. They're used here to set pin numbers:
+//const int buttonPin = D4;     // the number of the pushbutton pin
+const int buttonPin = 4;     // the number of the pushbutton pin
+
+// variables will change:
+int buttonState = 0;         // variable for reading the pushbutton status
+
+int redColor,greenColor,blueColor = 0;
+
+int delayval = 500; // timing delay 0.5 second
+
+int LightMode = 0;  // used to incriment light modes
+
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP);
+  pixels.begin(); // Initializes the NeoPixel library.
+  setColor();
+}
+
+void loop() {
+  setColor();
+  buttonState = digitalRead(buttonPin);
+
+  if (buttonState == LOW) {
+    LightMode += 1;   //increment light mode by 1 each time button is pressed.
+  }
+
+  //  if (LightMode > 0)
+  for (int i = 0; i < NUMPIXELS; i++) {
+    //  setColor();
+    pixels.setPixelColor(i, pixels.Color(redColor, greenColor, blueColor)); // Random generated in serColor.
+
+    pixels.show(); // This sends the updated pixel color to the hardware.
+
+    delay(delayval); // Delay for a period of time (in milliseconds).
+
+    }
+   
+  pixels.clear();  //turn all light off
+ 
+  }
+ 
+
+
+
+// picks random values to set for RGB
+void setColor(){
+  redColor = random(0, 255);
+  greenColor = random(0,255);
+  blueColor = random(0, 255);
+}
